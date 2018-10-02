@@ -6,15 +6,46 @@
     <script type="text/javascript" src="paper-full.js"></script>
     <script type="text/paperscript" canvas="myCanvas">
     
-    for(var y = 0; y < 1100; y += 100) {
-      for(var x = 0; x < 1100; x += 100) {
-        var circle = new Path.Circle({
-          center: new Point(x, y),
-          radius: 10,
-          fillColor: "rgb(" + x/4 + ", 0, 0)"
-        });
+      var sounds = ["sounds/zig-zag.mp3", "sounds/wipe.mp3", "sounds/veil.mp3", "sounds/ufo.mp3", "sounds/timer.mp3", "sounds/suspension.mp3", "sounds/strike.mp3", "sounds/squiggle.mp3", "sounds/splits.mp3", "sounds/prism-3.mp3", "sounds/prism-2.mp3", "sounds/prism-1.mp3", "sounds/piston-3.mp3", "sounds/piston-2.mp3", "sounds/piston-1.mp3", "sounds/pinwheel.mp3"]
+      
+      function selectSound() {
+        var x = Math.floor(Math.random()*14);
+        return x;
       }
-    }
+      
+      function randomAudio() {
+        var mySound = new Audio(sounds[selectSound()]);
+        return mySound;
+      }
+      
+      var circles = new Group();
+      
+      for(var y = 0; y < 1100; y += 100) {
+        for(var x = 0; x < 1100; x += 100) {
+          var circle = new Path.Circle({
+            center: new Point(x, y),
+            radius: 10,
+            fillColor: "rgb(" + x/4 + ", 0, 0)"
+          });
+          circles.addChild(circle);
+        }
+      }
+      
+      console.log(circles);
+      
+      var text = new PointText({
+        point: [100, 100],
+        justification: "center",
+        fillColor: "red",
+        content: "The contents of the text box!"
+      });
+      
+      function onKeyDown(event) {
+        randomAudio().load();
+        circles.strokeColor = "rgb(" + Math.random()*244 + ", " + Math.random()*244 + ", " + Math.random()*244 + ")";
+        circles.fillColor = "rgb(" + Math.random()*244 + ", " + Math.random()*244 + ", " + Math.random()*244 + ")";
+        randomAudio().play();
+      }
     </script>
   </head>
   <body>
